@@ -12,6 +12,15 @@ export default () => (
   <Stack.Navigator
     screenOptions={{
       cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      headerStyle: {
+        backgroundColor: "black",
+        borderBottomColor: "black",
+        shadowColor: "black",
+      },
+      headerTintColor: "white",
+      headerTitleAlign: "center",
+      headerBackTitleVisible: false,
+      gestureEnabled: true,
     }}
   >
     <Stack.Screen name="Tabs" component={Tabs} />
