@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import PropTypes from "prop-types";
 import { apiImage } from "../../api";
 import Poster from "../Poster";
+import Votes from "../Votes";
 
 const Container = styled.View`
   height: 100%;
@@ -36,13 +37,6 @@ const Title = styled.Text`
   margin-bottom: 10px;
 `;
 
-const Votes = styled.Text`
-  color: rgb(220, 220, 220);
-  margin-bottom: 7px;
-  font-size: 12px;
-  font-weight: 500;
-`;
-
 const Overview = styled.Text`
   color: rgb(220, 220, 220);
   font-weight: 500;
@@ -67,7 +61,7 @@ const Slide = ({ id, title, backgroundImage, votes, overview, poster }) => (
       <Poster url={apiImage(poster)} />
       <Data>
         <Title>{title.length > 30 ? `${title.slice(0, 30)}...` : title}</Title>
-        <Votes>⭐️ {votes} / 10</Votes>
+        <Votes votes={votes} />
         <Overview>
           {overview.length > 120 ? `${overview.slice(0, 120)}...` : overview}
         </Overview>
