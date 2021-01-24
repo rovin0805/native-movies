@@ -76,16 +76,16 @@ export default ({ result, loading, openBrowser }) => (
         </Container>
       </Header>
       <Data>
-        {result.overview && (
+        {!!result.overview && (
           <>
             <DataName>Overview</DataName>
             <DataValue>{result.overview}</DataValue>
           </>
         )}
-        {loading && (
+        {!!loading && (
           <ActivityIndicator style={{ marginTop: 30 }} color={"white"} />
         )}
-        {result.spoken_languages && (
+        {!!result.spoken_languages && (
           <>
             <DataName>Languages</DataName>
             <DataValue>
@@ -93,31 +93,31 @@ export default ({ result, loading, openBrowser }) => (
             </DataValue>
           </>
         )}
-        {result.release_date && (
+        {!!result.release_date && (
           <>
             <DataName>Release Date</DataName>
             <DataValue>{formatDate(result.release_date)}</DataValue>
           </>
         )}
-        {result.status && (
+        {!!result.status && (
           <>
             <DataName>Status</DataName>
             <DataValue>{result.status}</DataValue>
           </>
         )}
-        {result.runtime && (
+        {!!result.runtime && (
           <>
             <DataName>Runtime</DataName>
             <DataValue>{result.runtime} minutes</DataValue>
           </>
         )}
-        {result.first_air_date && (
+        {!!result.first_air_date && (
           <>
             <DataName>First Air Date</DataName>
             <DataValue>{formatDate(result.first_air_date)}</DataValue>
           </>
         )}
-        {result.genres && (
+        {!!result.genres && (
           <>
             <DataName>Genres</DataName>
             <DataValue>
@@ -127,7 +127,7 @@ export default ({ result, loading, openBrowser }) => (
             </DataValue>
           </>
         )}
-        {result.number_of_episodes && (
+        {!!result.number_of_episodes && (
           <>
             <DataName>Seasons / Episodes</DataName>
             <DataValue>
@@ -135,7 +135,7 @@ export default ({ result, loading, openBrowser }) => (
             </DataValue>
           </>
         )}
-        {result.imdb_id && (
+        {!!result.imdb_id && (
           <>
             <DataName>Links</DataName>
             <Link
@@ -147,7 +147,7 @@ export default ({ result, loading, openBrowser }) => (
             />
           </>
         )}
-        {result.videos.results?.length > 0 && (
+        {!!result.videos.results?.length > 0 && (
           <>
             <DataName>Videos</DataName>
             {result.videos.results.map((video) => (
