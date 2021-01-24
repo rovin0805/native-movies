@@ -2,11 +2,11 @@ import React from "react";
 import { Dimensions, ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
 import { apiImage } from "../../api";
+import { formatDate } from "../../utilities";
 import ScrollContainer from "../../components/ScrollContainer";
 import Poster from "../../components/Poster";
 import Votes from "../../components/Votes";
-import { formatDate } from "../../utilities";
-import { resolveUri } from "expo-asset/build/AssetSources";
+import Link from "../../components/Detail/Link";
 
 const Header = styled.View`
   height: ${Dimensions.get("window").height / 3}px;
@@ -59,7 +59,7 @@ const DataValue = styled.Text`
   font-weight: 500;
 `;
 
-export default ({ result, loading }) => (
+export default ({ result, loading, openBrowser }) => (
   <ScrollContainer
     loading={false}
     contentContainerStyle={{ paddingBottom: 80 }}
@@ -133,6 +133,33 @@ export default ({ result, loading }) => (
             <DataValue>
               {result.number_of_seasons} / {result.number_of_episodes}
             </DataValue>
+          </>
+        )}
+        {result.imdb_id && (
+          <>
+            <DataName>Links</DataName>
+            <Link
+              text={"IMDB Page"}
+              icon={"imdb"}
+              onPress={() =>
+                openBrowser(`https://www.imdb.com/title/${result.imdb_id}`)
+              }
+            />
+          </>
+        )}
+        {result.videos.results?.length > 0 && (
+          <>
+            <DataName>Videos</DataName>
+            {result.videos.results.map((video) => (
+              <Link
+                text={video.name}
+                key={video.id}
+                icon="youtube-play"
+                onPress={() =>
+                  openBrowser(`https://www.youtube.com/watch?v=${video.key}`)
+                }
+              />
+            ))}
           </>
         )}
       </Data>
