@@ -17,6 +17,7 @@ export default ({ refreshFn, loading, popular, topRated, today }) => (
         {popular?.length > 0 &&
           popular.map((show) => (
             <Vertical
+              isTv={true}
               id={show.id}
               key={show.id}
               poster={show.poster_path}
@@ -29,6 +30,7 @@ export default ({ refreshFn, loading, popular, topRated, today }) => (
         {topRated?.length > 0 &&
           topRated.map((show) => (
             <Vertical
+              isTv={true}
               key={show.id}
               id={show.id}
               poster={show.poster_path}
@@ -41,6 +43,7 @@ export default ({ refreshFn, loading, popular, topRated, today }) => (
         {today?.length > 0 &&
           today.map((show) => (
             <Horizontal
+              isTv={true}
               key={show.id}
               id={show.id}
               title={show.name}

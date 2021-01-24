@@ -36,10 +36,24 @@ const Overview = styled.Text`
   opacity: 0.8;
 `;
 
-const Horizontal = ({ id, title, releaseDate, poster, overview }) => {
+const Horizontal = ({
+  isTv = false,
+  id,
+  title,
+  releaseDate,
+  poster,
+  overview,
+}) => {
   const navigation = useNavigation();
   const goToDetail = () => {
-    navigation.navigate("Detail", { id, title, releaseDate, poster, overview });
+    navigation.navigate("Detail", {
+      isTv,
+      id,
+      title,
+      releaseDate,
+      poster,
+      overview,
+    });
   };
   return (
     <TouchableOpacity onPress={goToDetail}>
@@ -58,6 +72,7 @@ const Horizontal = ({ id, title, releaseDate, poster, overview }) => {
 };
 
 Horizontal.propTypes = {
+  isTv: PropTypes.bool,
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   releaseDate: PropTypes.string,
