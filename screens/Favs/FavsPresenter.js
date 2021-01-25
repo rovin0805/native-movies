@@ -3,7 +3,7 @@ import { PanResponder, Dimensions, Animated } from "react-native";
 import styled from "styled-components/native";
 import { apiImage } from "../../api";
 
-const { height: HEIGHT } = Dimensions.get("window");
+const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 
 const Container = styled.View`
   flex: 1;
@@ -26,21 +26,40 @@ const styles = {
 
 export default ({ results }) => {
   const [topIndex, setTopIndex] = useState(0);
+  const nextCard = () => setTopIndex((currentValue) => currentValue + 1);
   const position = new Animated.ValueXY();
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (evt, { dx, dy }) => {
       position.setValue({ x: dx, y: dy });
     },
-    onPanResponderRelease: () => {
-      Animated.spring(position, {
-        toValue: {
-          x: 0,
-          y: 0,
-        },
-        useNativeDriver: true,
-        bounciness: 10,
-      }).start();
+    onPanResponderRelease: (evt, { dx, dy }) => {
+      if (dx >= 250) {
+        Animated.spring(position, {
+          toValue: {
+            x: WIDTH + 100,
+            y: dy,
+          },
+          useNativeDriver: true,
+        }).start(nextCard);
+      } else if (dx <= -250) {
+        Animated.spring(position, {
+          toValue: {
+            x: -WIDTH - 100,
+            y: dy,
+          },
+          useNativeDriver: true,
+        }).start(nextCard);
+      } else {
+        Animated.spring(position, {
+          toValue: {
+            x: 0,
+            y: 0,
+          },
+          useNativeDriver: true,
+          bounciness: 10,
+        }).start();
+      }
     },
   });
   const rotationValue = position.x.interpolate({
@@ -62,6 +81,9 @@ export default ({ results }) => {
   return (
     <Container>
       {results.map((result, index) => {
+        if (index < topIndex) {
+          return null;
+        }
         if (index === topIndex) {
           return (
             <Animated.View
