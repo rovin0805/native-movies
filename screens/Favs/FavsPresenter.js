@@ -39,21 +39,68 @@ export default ({ results }) => {
           y: 0,
         },
         useNativeDriver: true,
-        bounciness: 20,
+        bounciness: 10,
       }).start();
     },
+  });
+  const rotationValue = position.x.interpolate({
+    inputRange: [-255, 0, 255],
+    outputRange: ["-10deg", "0deg", "10deg"],
+    extrapolate: "clamp",
+  });
+  const secondCardOpacity = position.x.interpolate({
+    inputRange: [-255, 0, 255],
+    outputRange: [1, 0.2, 1],
+    extrapolate: "clamp",
+  });
+  const secondCardScale = position.x.interpolate({
+    inputRange: [-255, 0, 255],
+    outputRange: [1, 0.8, 1],
+    extrapolate: "clamp",
   });
 
   return (
     <Container>
-      {results.reverse().map((result, index) => {
+      {results.map((result, index) => {
         if (index === topIndex) {
           return (
             <Animated.View
               style={{
                 zIndex: 1,
                 ...styles,
-                transform: [...position.getTranslateTransform()],
+                transform: [
+                  { rotate: rotationValue },
+                  ...position.getTranslateTransform(),
+                ],
+              }}
+              key={result.id}
+              {...panResponder.panHandlers}
+            >
+              <Poster source={{ uri: apiImage(result.poster_path) }} />
+            </Animated.View>
+          );
+        } else if (index === topIndex + 1) {
+          return (
+            <Animated.View
+              style={{
+                ...styles,
+                zIndex: -index,
+                opacity: secondCardOpacity,
+                transform: [{ scale: secondCardScale }],
+              }}
+              key={result.id}
+              {...panResponder.panHandlers}
+            >
+              <Poster source={{ uri: apiImage(result.poster_path) }} />
+            </Animated.View>
+          );
+        } else {
+          return (
+            <Animated.View
+              style={{
+                ...styles,
+                zIndex: -index,
+                opacity: 0,
               }}
               key={result.id}
               {...panResponder.panHandlers}
@@ -62,17 +109,6 @@ export default ({ results }) => {
             </Animated.View>
           );
         }
-        return (
-          <Animated.View
-            style={{
-              ...styles,
-            }}
-            key={result.id}
-            {...panResponder.panHandlers}
-          >
-            <Poster source={{ uri: apiImage(result.poster_path) }} />
-          </Animated.View>
-        );
       })}
     </Container>
   );
